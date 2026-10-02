@@ -1,0 +1,26 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+properties:
+  server:
+    type: object
+    additionalProperties: false
+    properties:
+      service:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            const: ClusterIP
+      ingress:
+        type: object
+        additionalProperties: false
+        properties:
+          enabled:
+            const: false
+      ingressGrpc:
+        type: object
+        additionalProperties: false
+        properties:
+          enabled:
+            const: false

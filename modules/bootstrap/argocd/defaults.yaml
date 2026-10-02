@@ -1,0 +1,7 @@
+server:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: false
+  ingressGrpc:
+    enabled: false

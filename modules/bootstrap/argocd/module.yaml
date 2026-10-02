@@ -1,0 +1,25 @@
+apiVersion: opsd.io/modules/v1alpha1
+kind: KubernetesModule
+
+metadata:
+  id: argocd
+  name: Argo CD
+  description: GitOps control plane installed during cluster bootstrap.
+
+spec:
+  layer: bootstrap
+  source:
+    type: helm
+    repository: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    version: 10.9.6
+    digest: sha256:6eda90bdd18de538511c9b9aca1ca7ba7a1ca5b919f598714d0e91cd7155d119
+  defaults: defaults.yaml
+  schema: schema.yaml
+  ownership:
+    type: official
+    repository: opsd-io/modules-kubernetes
+  supported_providers: [digitalocean, aws, azure, gcp]
+  provider_extensions: {}
+  validation:
+    mode: strict

@@ -1,0 +1,6 @@
+apiVersion: opsd.io/catalog/v1alpha1
+kind: KubernetesModuleCatalog
+
+modules:
+  - id: argocd
+    path: modules/bootstrap/argocd/module.yaml
