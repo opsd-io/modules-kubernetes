@@ -11,6 +11,18 @@ metadata. The catalog lists the module metadata files available in this repo.
 - [`argocd`](modules/bootstrap/argocd/README.md) installs Argo CD as the
   cluster's initial GitOps control plane.
 
+## DOKS-managed Gateway API
+
+DigitalOcean Kubernetes provides Gateway API through its managed Cilium
+implementation. It is available on VPC-native clusters running Kubernetes
+1.33 or later, and its `GatewayClass` is named `cilium`. DOKS also manages the
+Gateway API CRDs. Do not install a Gateway API or Cilium chart, or sync Gateway
+API CRDs from this repository, for this integration. Modules in this repository
+may create Gateway API resources after OPSd validates the cluster prerequisites;
+they must leave the controller and CRD lifecycle to DOKS. See DigitalOcean's
+[Gateway API guide](https://docs.digitalocean.com/products/kubernetes/how-to/use-gateway-api/)
+and [Gateway API feature notes](https://docs.digitalocean.com/products/kubernetes/details/features/).
+
 ## Validate Helm modules without a cluster
 
 Pull requests run `scripts/validate-helm-modules.rb`. The validator downloads
