@@ -1,0 +1,54 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+type: object
+additionalProperties: false
+properties:
+  sources:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      enum: [gateway-httproute, service]
+  policy:
+    enum: [create-only, upsert-only, sync]
+  registry:
+    const: txt
+  txtOwnerId:
+    type: string
+    minLength: 1
+  domainFilters:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      type: string
+      minLength: 1
+  provider:
+    type: object
+    additionalProperties: false
+    properties:
+      name:
+        const: webhook
+      webhook:
+        type: object
+        additionalProperties: true
+        properties:
+          image:
+            type: object
+            properties:
+              repository:
+                const: ghcr.io/amoniacou/external-dns-digitalocean-webhook
+              tag:
+                const: 1.0.4
+          env:
+            type: array
+          args:
+            type: array
+          livenessProbe:
+            type: object
+          readinessProbe:
+            type: object
+  extraArgs:
+    type: object
+    properties:
+      webhook-provider-url:
+        const: http://localhost:8080

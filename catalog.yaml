@@ -6,3 +6,5 @@ modules:
     path: modules/bootstrap/argocd/module.yaml
   - id: cert-manager
     path: modules/infrastructure/cert-manager/module.yaml
+  - id: external-dns
+    path: modules/infrastructure/external-dns/module.yaml

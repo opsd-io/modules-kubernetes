@@ -1,0 +1,40 @@
+sources:
+  - gateway-httproute
+  - service
+policy: upsert-only
+registry: txt
+provider:
+  name: webhook
+  webhook:
+    image:
+      repository: ghcr.io/amoniacou/external-dns-digitalocean-webhook
+      tag: 1.0.4
+    env:
+      - name: DO_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: digitalocean-dns
+            key: access-token
+    args:
+      - --host=localhost
+      - --port=8080
+      - --health-host=0.0.0.0
+      - --health-port=8888
+    securityContext:
+      runAsUser: 65532
+      runAsGroup: 65532
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop: [ALL]
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8888
+    readinessProbe:
+      httpGet:
+        path: /healthz
+        port: 8888
+extraArgs:
+  webhook-provider-url: http://localhost:8080
