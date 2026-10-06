@@ -4,3 +4,5 @@ kind: KubernetesModuleCatalog
 modules:
   - id: argocd
     path: modules/bootstrap/argocd/module.yaml
+  - id: cert-manager
+    path: modules/infrastructure/cert-manager/module.yaml

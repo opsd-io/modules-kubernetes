@@ -10,6 +10,8 @@ metadata. The catalog lists the module metadata files available in this repo.
 
 - [`argocd`](modules/bootstrap/argocd/README.md) installs Argo CD as the
   cluster's initial GitOps control plane.
+- [`cert-manager`](modules/infrastructure/cert-manager/README.md) installs
+  cert-manager and its CRDs for certificate automation.
 
 ## DOKS-managed Gateway API
 

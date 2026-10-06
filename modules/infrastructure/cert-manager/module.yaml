@@ -1,0 +1,25 @@
+apiVersion: opsd.io/modules/v1alpha1
+kind: KubernetesModule
+
+metadata:
+  id: cert-manager
+  name: cert-manager
+  description: Kubernetes certificate lifecycle controller and custom resource definitions.
+
+spec:
+  layer: infrastructure
+  source:
+    type: helm
+    repository: https://charts.jetstack.io
+    chart: cert-manager
+    version: v1.21.2
+    digest: sha256:73a56e1728edd6c99f1f31082618c3259d279a76b7ebd3d4bdc5475c2442d34a
+  defaults: defaults.yaml
+  schema: schema.yaml
+  ownership:
+    type: official
+    repository: opsd-io/modules-kubernetes
+  supported_providers: [digitalocean, aws, azure, gcp]
+  provider_extensions: {}
+  validation:
+    mode: strict
