@@ -12,6 +12,9 @@ metadata. The catalog lists the module metadata files available in this repo.
   cluster's initial GitOps control plane.
 - [`cert-manager`](modules/infrastructure/cert-manager/README.md) installs
   cert-manager and its CRDs for certificate automation.
+- [`external-dns`](modules/infrastructure/external-dns/README.md) synchronizes
+  Gateway API route and Service DNS records with DigitalOcean through a
+  pinned webhook provider.
 
 ## DOKS-managed Gateway API
 

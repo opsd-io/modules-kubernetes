@@ -1,0 +1,25 @@
+apiVersion: opsd.io/modules/v1alpha1
+kind: KubernetesModule
+
+metadata:
+  id: external-dns
+  name: ExternalDNS
+  description: Synchronizes Kubernetes Gateway API routes and Services with DigitalOcean DNS.
+
+spec:
+  layer: infrastructure
+  source:
+    type: helm
+    repository: https://kubernetes-sigs.github.io/external-dns/
+    chart: external-dns
+    version: 1.23.0
+    digest: sha256:6d149b9b04db1dc9e46b3693a4eca4ac90d6bba5e3b2a0fdd067ce3f7bfbc31e
+  defaults: defaults.yaml
+  schema: schema.yaml
+  ownership:
+    type: official
+    repository: opsd-io/modules-kubernetes
+  supported_providers: [digitalocean]
+  provider_extensions: {}
+  validation:
+    mode: strict
