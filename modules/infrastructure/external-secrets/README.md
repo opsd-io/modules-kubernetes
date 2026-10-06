@@ -30,6 +30,72 @@ token to read-only access where DigitalOcean exposes a suitable scope, and
 rotate it through the same manual bootstrap process. ESO then writes the
 selected values as Kubernetes Secrets; workloads consume those local Secrets.
 
+For example, save the personal access token in a protected local file and
+create the labeled bootstrap Secret in the workload namespace:
+
+```sh
+kubectl --namespace payments create secret generic digitalocean-secrets-manager-auth \
+  --from-file=accessToken=/secure/path/do-token
+kubectl --namespace payments label secret digitalocean-secrets-manager-auth \
+  external-secrets.io/type=webhook
+```
+
+Create a namespaced `SecretStore` for one DigitalOcean secret container and
+region. Replace `payments-api` and `nyc3` with the container name and its
+DigitalOcean region:
+
+```yaml
+apiVersion: external-secrets.io/v1
+kind: SecretStore
+metadata:
+  name: digitalocean-secrets-manager
+  namespace: payments
+spec:
+  provider:
+    webhook:
+      url: https://api.digitalocean.com/v2/security/secrets/payments-api?region=nyc3
+      method: GET
+      headers:
+        Authorization: "Bearer {{ .auth.accessToken }}"
+        Accept: application/json
+      result:
+        jsonPath: "$.values.{{ .remoteRef.key }}"
+      secrets:
+        - name: auth
+          secretRef:
+            name: digitalocean-secrets-manager-auth
+```
+
+Then map an individual key from that DigitalOcean container to a Kubernetes
+Secret consumed by a workload:
+
+```yaml
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: payments-api-credentials
+  namespace: payments
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: digitalocean-secrets-manager
+    kind: SecretStore
+  target:
+    name: payments-api-credentials
+    creationPolicy: Owner
+  data:
+    - secretKey: api-token
+      remoteRef:
+        key: apiToken
+```
+
+In this example the remote DigitalOcean secret container is `payments-api`,
+its region is `nyc3`, and its value key is `apiToken`. The generated Kubernetes
+Secret is named `payments-api-credentials` and contains the local key
+`api-token`. Use a separate store for each remote container or region. Apply
+the `SecretStore` and `ExternalSecret` after ESO is ready; the bootstrap Secret
+must exist before the store can become ready.
+
 Because the DigitalOcean endpoint lacks a published API contract, this path is
 not a supported native ESO provider. If that limitation is unacceptable, keep
 credentials in Kubernetes Secrets and use SOPS-encrypted manifests as an
