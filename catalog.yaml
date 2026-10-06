@@ -8,3 +8,5 @@ modules:
     path: modules/infrastructure/cert-manager/module.yaml
   - id: external-dns
     path: modules/infrastructure/external-dns/module.yaml
+  - id: external-secrets
+    path: modules/infrastructure/external-secrets/module.yaml
