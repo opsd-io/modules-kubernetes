@@ -15,6 +15,10 @@ metadata. The catalog lists the module metadata files available in this repo.
 - [`external-dns`](modules/infrastructure/external-dns/README.md) synchronizes
   Gateway API route and Service DNS records with DigitalOcean through a
   pinned webhook provider.
+- [`external-secrets`](modules/infrastructure/external-secrets/README.md)
+  installs External Secrets Operator; the DigitalOcean Secrets Manager
+  integration requires a manually bootstrapped API token and uses ESO's generic
+  webhook provider as an experimental path.
 
 ## DOKS-managed Gateway API
 
