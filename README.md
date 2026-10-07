@@ -42,7 +42,10 @@ only a live API server can confirm that the target cluster accepts every
 rendered resource.
 
 Run the same validation locally with Ruby 3.4.10 (in `.ruby-version`) and Helm
-4.3.0 (in `.tool-versions`):
+4.3.0 (in `.tool-versions`). It requires network access to download the pinned
+chart archives; the script does not currently support offline validation. The
+lint and template checks use Kubernetes version `1.25.0` and namespace
+`argocd` for every chart, regardless of the module's target namespace:
 
 ```sh
 ruby scripts/validate-helm-modules.rb
@@ -56,4 +59,5 @@ ruby scripts/validate-helm-modules.rb
 3. For Helm sources, pin both the chart version and the SHA-256 digest of the
    downloaded chart archive. Keep only OPSd-supported values in defaults and
    schema; upstream defaults remain upstream-owned.
-4. Run the offline Helm validator and update this README when appropriate.
+4. Run the Helm module validator and update this README when appropriate. The
+   validator requires network access to pull chart archives.
